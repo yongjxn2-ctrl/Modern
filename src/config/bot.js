@@ -24,9 +24,9 @@ export const botConfig = {
     activities: [
       {
         // Text users will see (example: "Playing /help | Titan Bot").
-        name: "Made with ❤️",
+        name: "Mady By 모던",
         // Activity type number (0 = Playing).
-        type: 0,
+        type: 2,
       },
     ],
   },
@@ -139,7 +139,7 @@ export const botConfig = {
     },
     footer: {
       // Default footer text used in bot embeds.
-      text: "Titan Bot",
+      text: "Modern",
       // Footer icon URL (null = no icon).
       icon: null,
     },
