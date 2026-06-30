@@ -2,110 +2,102 @@ import { logger } from '../utils/logger.js';
 
 export const botConfig = {
   // =========================
-  // BOT PRESENCE (what users see under the bot name)
+  // 봇 상태 설정 (봇 이름 아래에 표시되는 내용)
   // =========================
-  // `status` options:
-  // - "online"    = green dot
-  // - "idle"      = yellow moon
-  // - "dnd"       = red do-not-disturb
-  // - "invisible" = appears offline
+  // `status` 옵션:
+  // - "online"    = 온라인(초록 점)
+  // - "idle"      = 자리 비움(노란 달)
+  // - "dnd"       = 방해 금지(빨간 표시)
+  // - "invisible" = 오프라인으로 표시
   presence: {
-    // Current online state shown on Discord.
+    // Discord에 표시되는 현재 상태
     status: "online",
 
-    // Activity lines shown under the bot name.
-    // `type` number mapping from Discord:
-    // 0 = Playing
-    // 1 = Streaming
-    // 2 = Listening
-    // 3 = Watching
-    // 4 = Custom
-    // 5 = Competing
+    // 봇 이름 아래 활동 표시
+    // Discord 타입:
+    // 0 = 플레이 중
+    // 1 = 방송 중
+    // 2 = 듣는 중
+    // 3 = 시청 중
+    // 4 = 사용자 지정
+    // 5 = 경쟁 중
     activities: [
       {
-        // Text users will see (example: "Playing /help | Titan Bot").
+        // 사용자에게 표시되는 활동 이름
         name: "Mady By 모던",
-        // Activity type number (0 = Playing).
         type: 2,
       },
     ],
   },
 
   // =========================
-  // COMMAND BEHAVIOR
+  // 명령어 설정
   // =========================
   commands: {
-    // Bot owner user IDs (comma-separated in OWNER_IDS env var).
-    // Owners can access owner/admin-level bot commands.
+    // 봇 소유자 ID 목록
     owners: process.env.OWNER_IDS?.split(",") || [],
 
-    // Default wait time between command uses (in seconds).
+    // 기본 명령어 쿨타임(초)
     defaultCooldown: 3,
 
-    // If true, old commands are removed before re-registering.
+    // true이면 기존 명령어 삭제 후 재등록
     deleteCommands: false,
 
-    // Optional server ID used for testing slash commands quickly.
+    // 테스트용 서버 ID
     testGuildId: process.env.TEST_GUILD_ID,
 
-    // Command prefix for text-based commands (e.g., "!" for "!ping").
-    // Supports both slash commands and prefix commands.
+    // 명령어 접두사
     prefix: process.env.PREFIX || "!",
   },
 
   // =========================
-  // APPLICATIONS SYSTEM
+  // 지원서 시스템
   // =========================
   applications: {
-    // Default questions shown when someone fills out an application.
+    // 기본 질문
     defaultQuestions: [
-      { question: "What is your name?", required: true },
-      { question: "How old are you?", required: true },
-      { question: "Why do you want to join?", required: true },
+      { question: "이름이 무엇인가요?", required: true },
+      { question: "나이가 어떻게 되나요?", required: true },
+      { question: "왜 가입하고 싶나요?", required: true },
     ],
 
-    // Embed colors by application status.
+    // 상태별 색상
     statusColors: {
       pending: "#FFA500",
       approved: "#00FF00",
       denied: "#FF0000",
     },
 
-    // How long users must wait before submitting another application (hours).
+    // 재지원 대기 시간(시간)
     applicationCooldown: 24,
 
-    // Auto-delete denied applications after this many days.
+    // 거절된 지원서 자동 삭제 (일)
     deleteDeniedAfter: 7,
 
-    // Auto-delete approved applications after this many days.
+    // 승인된 지원서 자동 삭제 (일)
     deleteApprovedAfter: 30,
 
-    // Role IDs allowed to manage applications.
-    managerRoles: [], // Will be populated from environment or database
+    // 관리자 역할
+    managerRoles: [],
   },
 
   // =========================
-  // EMBED COLORS & BRANDING
+  // Embed 색상
   // =========================
-  // IMPORTANT: This is the SINGLE SOURCE OF TRUTH for all bot colors
   embeds: {
     colors: {
-      // Main brand colors.
       primary: "#336699",
       secondary: "#2F3136",
 
-      // Standard status colors for success/error/warning/info messages.
       success: "#57F287",
       error: "#ED4245",
       warning: "#FEE75C",
       info: "#3498DB",
 
-      // Neutral utility colors.
       light: "#FFFFFF",
       dark: "#202225",
       gray: "#99AAB5",
 
-      // Discord-style palette shortcuts.
       blurple: "#5865F2",
       green: "#57F287",
       yellow: "#FEE75C",
@@ -113,22 +105,22 @@ export const botConfig = {
       red: "#ED4245",
       black: "#000000",
 
-      // Feature-specific colors.
       giveaway: {
         active: "#57F287",
         ended: "#ED4245",
       },
+
       ticket: {
         open: "#57F287",
         claimed: "#FAA61A",
         closed: "#ED4245",
         pending: "#99AAB5",
       },
+
       economy: "#F1C40F",
       birthday: "#E91E63",
       moderation: "#9B59B6",
 
-      // Ticket priority color mapping.
       priority: {
         none: "#95A5A6",
         low: "#3498db",
@@ -137,283 +129,290 @@ export const botConfig = {
         urgent: "#e74c3c",
       },
     },
+
     footer: {
-      // Default footer text used in bot embeds.
-      text: "Modern",
-      // Footer icon URL (null = no icon).
+      text: "모던",
       icon: null,
     },
-    // Default thumbnail URL for embeds (null = no thumbnail).
+
     thumbnail: null,
+
     author: {
-      // Optional default embed author block.
       name: null,
       icon: null,
       url: null,
     },
   },
 
-  // =========================
-  // ECONOMY SETTINGS
+    // =========================
+  // 경제 시스템 설정
   // =========================
   economy: {
     currency: {
-      // Currency display name.
-      name: "coins",
-      // Plural display name.
-      namePlural: "coins",
-      // Currency symbol shown in balances.
+      // 화폐 이름
+      name: "코인",
+      // 복수형 화폐 이름
+      namePlural: "코인",
+      // 화폐 기호
       symbol: "$",
     },
 
-    // Starting balance for new users.
+    // 신규 유저 시작 금액
     startingBalance: 0,
 
-    // Maximum bank amount before upgrades (if upgrades are used).
+    // 최대 은행 보관 한도
     baseBankCapacity: 100000,
 
-    // Daily reward amount.
+    // 일일 보상
     dailyAmount: 100,
 
-    // Work command random payout range.
+    // 작업 최소/최대 보상
     workMin: 10,
     workMax: 100,
 
-    // Beg command random payout range.
+    // 구걸 최소/최대 보상
     begMin: 5,
     begMax: 50,
 
-    // Chance to succeed when robbing (0.4 = 40%).
+    // 강도 성공 확률 (0.4 = 40%)
     robSuccessRate: 0.4,
 
-    // Jail time after failed rob (milliseconds).
-    // 3600000 = 1 hour.
+    // 강도 실패 시 감옥 시간
+    // 3600000 = 1시간
     robFailJailTime: 3600000,
   },
 
   // =========================
-  // SHOP SETTINGS
+  // 상점 설정
   // =========================
-  // Add shop defaults here when needed.
   shop: {
 
   },
 
   // =========================
-  // TICKET SYSTEM
+  // 티켓 시스템
   // =========================
   tickets: {
-    // Category ID where new tickets are created (null = no forced category).
+    // 기본 카테고리 ID
     defaultCategory: null,
 
-    // Role IDs allowed to manage/support tickets.
+    // 지원 역할 ID
     supportRoles: [],
 
-    // Priority options users/staff can assign.
+    // 우선순위 옵션
     priorities: {
       none: {
         emoji: "⚪",
         color: "#95A5A6",
-        label: "None",
+        label: "없음",
       },
       low: {
         emoji: "🟢",
         color: "#2ECC71",
-        label: "Low",
+        label: "낮음",
       },
       medium: {
         emoji: "🟡",
         color: "#F1C40F",
-        label: "Medium",
+        label: "보통",
       },
       high: {
         emoji: "🔴",
         color: "#E74C3C",
-        label: "High",
+        label: "높음",
       },
       urgent: {
         emoji: "🚨",
         color: "#E91E63",
-        label: "Urgent",
+        label: "긴급",
       },
     },
 
-    // Default priority for new tickets.
+    // 기본 우선순위
     defaultPriority: "none",
 
-    // Category ID where closed tickets are archived.
+    // 종료된 티켓 아카이브 카테고리
     archiveCategory: null,
 
-    // Channel ID where ticket logs are sent.
+    // 로그 채널
     logChannel: null,
   },
 
   // =========================
-  // GIVEAWAY SETTINGS
+  // 이벤트 (Giveaway)
   // =========================
   giveaways: {
-    // Default giveaway duration in milliseconds.
-    // 86400000 = 24 hours.
+    // 기본 지속 시간
     defaultDuration: 86400000,
 
-    // Allowed winner count range.
+    // 최소 당첨자 수
     minimumWinners: 1,
+
+    // 최대 당첨자 수
     maximumWinners: 10,
 
-    // Allowed giveaway duration range in milliseconds.
-    // 300000 = 5 minutes.
+    // 최소 지속 시간
     minimumDuration: 300000,
-    // 2592000000 = 30 days.
+
+    // 최대 지속 시간
     maximumDuration: 2592000000,
 
-    // Role IDs allowed to host giveaways.
+    // 이벤트 허용 역할
     allowedRoles: [],
 
-    // Role IDs that bypass giveaway restrictions.
+    // 우회 역할
     bypassRoles: [],
   },
 
-  // =========================
-  // BIRTHDAY SETTINGS
+    // =========================
+  // 생일 시스템
   // =========================
   birthday: {
-    // Role ID given to users on their birthday.
+    // 생일 역할 ID
     defaultRole: null,
 
-    // Channel ID where birthday announcements are posted.
+    // 생일 알림 채널 ID
     announcementChannel: null,
 
-    // Timezone used to calculate birthday dates.
+    // 시간대 설정
     timezone: "UTC",
   },
 
   // =========================
-  // VERIFICATION SETTINGS
+  // 인증 시스템
   // =========================
   verification: {
-    // Message shown when posting the verification panel.
-    defaultMessage: "Click the button below to verify yourself and gain access to the server!",
+    // 인증 메시지
+    defaultMessage: "아래 버튼을 눌러 인증하고 서버에 입장하세요!",
 
-    // Text on the verification button.
-    defaultButtonText: "Verify",
+    // 인증 버튼 텍스트
+    defaultButtonText: "인증하기",
 
-    // Automatic verification behavior.
+    // 자동 인증 설정
     autoVerify: {
-      // How automatic verification decides who is auto-approved:
-      // - "none"        = everyone is auto-verified immediately
-      // - "account_age" = account must be older than set days
-      // - "server_size" = auto-verify everyone only in smaller servers
+      // 자동 인증 기준
+      // - "none"        = 모두 즉시 인증
+      // - "account_age" = 계정 나이 기준
+      // - "server_size" = 서버 크기 기준
       defaultCriteria: "none",
 
-      // Days used when `defaultCriteria` is `account_age`.
+      // 계정 생성 기준 일수
       defaultAccountAgeDays: 7,
 
-      // Member count threshold used when `defaultCriteria` is `server_size`.
-      // Example: 1000 means auto-verify if server has fewer than 1000 members.
+      // 서버 크기 기준 인원
       serverSizeThreshold: 1000,
 
-      // Allowed safety limits for account-age requirements.
-      // 1 = minimum day, 365 = maximum days.
+      // 최소 계정 나이
       minAccountAge: 1,
       maxAccountAge: 365,
 
-      // If true, user receives a DM after verification.
+      // 인증 후 DM 전송 여부
       sendDMNotification: true,
 
-      // Human-readable descriptions for each criteria mode.
       criteria: {
-        account_age: "Account must be older than specified days",
-        server_size: "All users if server has less than 1000 members",
-        none: "All users immediately"
-      }
+        account_age: "계정이 지정된 일수보다 오래되어야 합니다.",
+        server_size: "서버 인원이 1000명 미만이면 모두 자동 인증됩니다.",
+        none: "모든 사용자를 즉시 인증합니다.",
+      },
     },
 
-    // Minimum time between verification attempts (milliseconds).
-    // 5000 = 5 seconds.
+    // 인증 쿨타임
     verificationCooldown: 5000,
 
-    // Maximum failed attempts allowed inside the time window below.
+    // 최대 인증 시도 횟수
     maxVerificationAttempts: 3,
 
-    // Time window for counting attempts (milliseconds).
-    // 60000 = 1 minute.
+    // 시도 시간 창
     attemptWindow: 60000,
 
-    // In-memory safety limits (helps avoid unbounded memory growth).
+    // 메모리 제한
     maxCooldownEntries: 10000,
     maxAttemptEntries: 10000,
-    // Cleanup frequency for cooldown/attempt maps (milliseconds).
-    // 300000 = 5 minutes.
+
+    // 정리 주기
     cooldownCleanupInterval: 300000,
-    // Maximum metadata payload size for audit entries (bytes).
+
+    // 감사 로그 최대 크기
     maxAuditMetadataBytes: 4096,
-    // Maximum number of audit entries kept in memory.
+
+    // 메모리 저장 최대 개수
     maxInMemoryAuditEntries: 1000,
-    // If true, log every verification action.
+
+    // 로그 기록 여부
     logAllVerifications: true,
-    // If true, preserve verification audit history.
+
+    // 감사 기록 유지 여부
     keepAuditTrail: true,
   },
 
   // =========================
-  // WELCOME / GOODBYE MESSAGES
+  // 환영 / 퇴장 메시지
   // =========================
   welcome: {
-    // Welcome template posted when a user joins.
-    // Placeholders: {user}, {server}, {memberCount}
+    // 환영 메시지
     defaultWelcomeMessage:
-      "Welcome {user} to {server}! We now have {memberCount} members!",
-    // Goodbye template posted when a user leaves.
-    // Placeholders: {user}, {memberCount}
+      "환영합니다 {user}! {server}에 오신 것을 환영합니다! 현재 서버 인원은 {memberCount}명입니다!",
+
+    // 퇴장 메시지
     defaultGoodbyeMessage:
-      "{user} has left the server. We now have {memberCount} members.",
-    // Channel ID for welcome messages.
+      "{user}님이 서버를 떠났습니다. 현재 서버 인원은 {memberCount}명입니다.",
+
+    // 환영 채널 ID
     defaultWelcomeChannel: null,
-    // Channel ID for goodbye messages.
+
+    // 퇴장 채널 ID
     defaultGoodbyeChannel: null,
   },
 
-  // =========================
-  // COUNTER CHANNELS
+    // =========================
+  // 카운터 시스템
   // =========================
   counters: {
     defaults: {
-      // Default naming/description templates for counter entries.
-      name: "{name} Counter",
-      description: "Server {name} counter",
-      // Channel type used for counters (typically "voice").
+      // 기본 이름 템플릿
+      name: "{name} 카운터",
+
+      // 기본 설명
+      description: "{name} 카운터",
+
+      // 채널 타입
       type: "voice",
-      // Channel name format. `{count}` is replaced automatically.
+
+      // 채널 이름 형식
       channelName: "{name}-{count}",
     },
+
     permissions: {
-      // Default denied permissions for the counter channel.
+      // 기본 거부 권한
       deny: ["VIEW_CHANNEL"],
-      // Default allowed permissions for the counter channel.
+
+      // 기본 허용 권한
       allow: ["VIEW_CHANNEL", "CONNECT", "SPEAK"],
     },
+
     messages: {
-      // Default response messages for counter actions.
-      created: "✅ Created counter **{name}**",
-      deleted: "🗑️ Deleted counter **{name}**",
-      updated: "🔄 Updated counter **{name}**",
+      created: "✅ {name} 카운터가 생성되었습니다",
+      deleted: "🗑️ {name} 카운터가 삭제되었습니다",
+      updated: "🔄 {name} 카운터가 업데이트되었습니다",
     },
+
     types: {
-      // Built-in counter types and how each count is calculated.
       members: {
-        name: "👥 Members",
-        description: "Total members in the server",
+        name: "👥 전체 멤버",
+        description: "서버의 전체 멤버 수",
         getCount: (guild) => guild.memberCount.toString(),
       },
+
       bots: {
-        name: "🤖 Bots",
-        description: "Total bot accounts in the server",
+        name: "🤖 봇",
+        description: "서버의 전체 봇 수",
         getCount: (guild) =>
           guild.members.cache.filter((m) => m.user.bot).size.toString(),
       },
+
       members_only: {
-        name: "👤 Humans",
-        description: "Total human members (non-bots)",
+        name: "👤 일반 멤버",
+        description: "봇을 제외한 일반 멤버 수",
         getCount: (guild) =>
           guild.members.cache.filter((m) => !m.user.bot).size.toString(),
       },
@@ -421,42 +420,36 @@ export const botConfig = {
   },
 
   // =========================
-  // GENERIC BOT MESSAGES
+  // 공통 메시지
   // =========================
   messages: {
-    noPermission: "You do not have permission to use this command.",
-    cooldownActive: "Please wait {time} before using this command again.",
-    errorOccurred: "An error occurred while executing this command.",
-    missingPermissions:
-      "I am missing required permissions to perform this action.",
-    commandDisabled: "This command has been disabled.",
-    maintenanceMode: "The bot is currently in maintenance mode.",
+    noPermission: "이 명령어를 사용할 권한이 없습니다.",
+    cooldownActive: "{time} 후에 다시 사용할 수 있습니다.",
+    errorOccurred: "명령어 실행 중 오류가 발생했습니다.",
+    missingPermissions: "이 작업을 수행할 권한이 부족합니다.",
+    commandDisabled: "이 명령어는 비활성화되어 있습니다.",
+    maintenanceMode: "현재 봇이 점검 중입니다.",
   },
 
   // =========================
-  // FEATURE TOGGLES
+  // 기능 설정
   // =========================
-  // Set any feature to `false` to disable it globally.
   features: {
-    // Core systems.
     economy: true,
     leveling: true,
     moderation: true,
     logging: true,
     welcome: true,
 
-    // Community engagement systems.
     tickets: true,
     giveaways: true,
     birthday: true,
     counter: true,
 
-    // Security and self-service systems.
     verification: true,
     reactionRoles: true,
     joinToCreate: true,
 
-    // Utility/quality-of-life modules.
     voice: true,
     search: true,
     tools: true,
@@ -470,32 +463,32 @@ export function validateConfig(config) {
   const errors = [];
 
   if (process.env.NODE_ENV !== 'production') {
-    logger.debug('Environment variables check:');
-    logger.debug('DISCORD_TOKEN exists:', !!process.env.DISCORD_TOKEN);
-    logger.debug('TOKEN exists:', !!process.env.TOKEN);
-    logger.debug('CLIENT_ID exists:', !!process.env.CLIENT_ID);
-    logger.debug('GUILD_ID exists:', !!process.env.GUILD_ID);
-    logger.debug('POSTGRES_HOST exists:', !!process.env.POSTGRES_HOST);
+    logger.debug('환경 변수 확인:');
+    logger.debug('DISCORD_TOKEN 존재:', !!process.env.DISCORD_TOKEN);
+    logger.debug('TOKEN 존재:', !!process.env.TOKEN);
+    logger.debug('CLIENT_ID 존재:', !!process.env.CLIENT_ID);
+    logger.debug('GUILD_ID 존재:', !!process.env.GUILD_ID);
+    logger.debug('POSTGRES_HOST 존재:', !!process.env.POSTGRES_HOST);
     logger.debug('NODE_ENV:', process.env.NODE_ENV);
   }
 
   if (!process.env.DISCORD_TOKEN && !process.env.TOKEN) {
-    errors.push("Bot token is required (DISCORD_TOKEN or TOKEN environment variable)");
+    errors.push("봇 토큰이 필요합니다 (DISCORD_TOKEN 또는 TOKEN 환경 변수)");
   }
 
   if (!process.env.CLIENT_ID) {
-    errors.push("Client ID is required (CLIENT_ID environment variable)");
+    errors.push("CLIENT_ID 환경 변수가 필요합니다");
   }
 
   if (process.env.NODE_ENV === 'production') {
     if (!process.env.POSTGRES_HOST) {
-      errors.push("PostgreSQL host is required in production (POSTGRES_HOST environment variable)");
+      errors.push("프로덕션 환경에서는 POSTGRES_HOST 환경 변수가 필요합니다");
     }
     if (!process.env.POSTGRES_USER) {
-      errors.push("PostgreSQL user is required in production (POSTGRES_USER environment variable)");
+      errors.push("프로덕션 환경에서는 POSTGRES_USER 환경 변수가 필요합니다");
     }
     if (!process.env.POSTGRES_PASSWORD) {
-      errors.push("PostgreSQL password is required in production (POSTGRES_PASSWORD environment variable)");
+      errors.push("프로덕션 환경에서는 POSTGRES_PASSWORD 환경 변수가 필요합니다");
     }
   }
 
@@ -503,8 +496,10 @@ export function validateConfig(config) {
 }
 
 const configErrors = validateConfig(botConfig);
+
 if (configErrors.length > 0) {
-  logger.error("Bot configuration errors:", configErrors.join("\n"));
+  logger.error("봇 설정 오류:", configErrors.join("\n"));
+
   if (process.env.NODE_ENV === "production") {
     process.exit(1);
   }
@@ -515,20 +510,22 @@ export const BotConfig = botConfig;
 export function getColor(path, fallback = "#99AAB5") {
   
   if (typeof path === "number") return path;
+
   if (typeof path === "string" && path.startsWith("#")) {
-    
     return parseInt(path.replace("#", ""), 16);
   }
+
   const result = path
     .split(".")
     .reduce(
       (obj, key) => (obj && obj[key] !== undefined ? obj[key] : fallback),
       botConfig.embeds.colors,
     );
-  
+
   if (typeof result === "string" && result.startsWith("#")) {
     return parseInt(result.replace("#", ""), 16);
   }
+
   return result;
 }
 
@@ -536,7 +533,10 @@ export function getRandomColor() {
   const colors = Object.values(botConfig.embeds.colors).flatMap((color) =>
     typeof color === "string" ? color : Object.values(color),
   );
+
   return colors[Math.floor(Math.random() * colors.length)];
 }
 
 export default botConfig;
+
+// 완료
